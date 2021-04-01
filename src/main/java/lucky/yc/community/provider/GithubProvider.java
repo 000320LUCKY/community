@@ -37,7 +37,6 @@ public class GithubProvider {
                 .header("Authorization","token "+accessToken)
                 .build();
         try {
-
             Response response = client.newCall(request).execute();
             String string = response.body().string();
 //            System.out.printf("qw:"+string);
