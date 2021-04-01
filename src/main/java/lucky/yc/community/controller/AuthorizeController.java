@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -35,7 +37,8 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
-                            HttpServletRequest request) {
+                           HttpServletRequest request,
+                           HttpServletResponse response) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -47,16 +50,18 @@ public class AuthorizeController {
         System.out.printf("user_info:"+githubUser.toString());
         if (githubUser != null) {
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             System.out.printf("model:"+user.toString());
             System.out.printf("model1:"+githubUser.toString());
+            //登录成功，写session和cookies.通过获得的token添加到浏览器的cookies与插入数据库的token进行比较，如果数据库里已经插入了token就表示登录成功（如果GitHub未同意登录则无法插入数据）
             userMapper.insert(user);
-            //登录成功，写session和cookies
-            request.getSession().setAttribute("user",githubUser);
+            response.addCookie(new Cookie("token", token));
+//            request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
         } else {
             System.out.printf("未获得数据");
