@@ -2,17 +2,19 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="_fragment :: head(~{::title})">
     <meta charset="UTF-8">
-    <title>Lucky论坛</title>
+    <title>发布 - Lucky论坛</title>
+    <link rel="stylesheet" href="css/community.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
-<body>
+<body class="background_publish_body">
 <!--     header-->
 <nav class="navbar navbar-default" th:replace="_fragment :: nav">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Lucky论坛</span>
             </button>
             <a class="navbar-brand" href="#">Lucky论坛</a>
@@ -46,32 +48,45 @@
             </ul>
         </div>
     </div>
+
 </nav>
 <!--主体内容-->
 <div class="container-fluid main background_publish_div">
     <div class="row">
-<!--        左侧-->
+        <!--        左侧-->
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h4><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h4>
+            <h4><span class="glyphicon mini glyphicon-plus" aria-hidden="true"></span>发起</h4>
             <hr>
-            <div class="media" th:each="ques : ${questions}">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object img-rounded"
-                             th:src="${ques.user.avatarUrl}" >
-                    </a>
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <label for="title">问题标题 （简单扼要）：</label>
+                    <input type="text" class="form-control" th:value="${title}" id="title" name="title" placeholder="问题标题....">
                 </div>
-                <div class="media-body">
-                    <h4 class="media-heading" th:text="${ques.title}">测试标题</h4>
-                    <span th:text="${ques.description}"></span>  <br>
-                    <span class="main1" style="font-size: 12px !important;font-weight: normal !important;color: #999 !important;">
-                        <span th:text="${ques.commentCount}"></span>个回复 • <span th:text="${ques.viewCount}"></span>次浏览 • <span th:text="${#dates.format(ques.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span></span>
+                <div class="form-group">
+                    <label for="description">问题补充 （必填，参照右侧提示）：</label>
+                    <textarea class="form-control" th:value="${description}" name="description" id="description" cols="30" rows="10"></textarea>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="tags">添加标签：</label>
+                    <input type="text" class="form-control" id="tags" name="tags" th:value="${tags}" placeholder="输入标签，以“，”隔开">
+                </div>
+                <div class="container-fluid ">
+                    <div class="row">
+                        <div class="alert alert-danger col-lg-10 col-md-12 col-sm-12 col-xs-12" th:if="${error != null}" th:text="${error}"></div>
+                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 button">
+                            <button type="submit" class="btn btn-success ">发布</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
         </div>
-<!--        右侧-->
+        <!--        右侧-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>问题发起指南</h3>
+            <p>·问题标题：请用简洁的语言描述你发布的问题，不超过25字</p>
+            <p>·问题补充：详细补充您的问题内容，并确保问题描述清晰直观，并提供一些相关资料</p>
+            <p>·选择标签：选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字</p>
         </div>
     </div>
 </div>

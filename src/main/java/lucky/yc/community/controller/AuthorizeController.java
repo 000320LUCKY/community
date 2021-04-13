@@ -34,6 +34,15 @@ public class AuthorizeController {
     @Autowired
     private UserMapper userMapper;
 
+
+    /**
+     *
+     * @param code 从GitHub返回到一段字符串
+     * @param state
+     * @param request
+     * @param response
+     * @return
+     */
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
@@ -48,11 +57,13 @@ public class AuthorizeController {
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
         System.out.printf("user_info:"+githubUser.toString());
-        if (githubUser != null) {
+        if (githubUser != null && githubUser.getId() != null) {
             User user = new User();
+//            获得的token
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setName(githubUser.getName());
+            user.setAvatarUrl(githubUser.getAvatar_url());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
