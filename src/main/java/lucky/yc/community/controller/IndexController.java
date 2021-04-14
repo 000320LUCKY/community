@@ -1,5 +1,6 @@
 package lucky.yc.community.controller;
 
+import lucky.yc.community.dto.PaginationDTO;
 import lucky.yc.community.dto.QuestionDTO;
 import lucky.yc.community.mapper.QuestionMapper;
 import lucky.yc.community.mapper.UserMapper;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -24,14 +26,15 @@ public class IndexController {
     private UserMapper userMapper;
 
     /**
-     *
      * @param request
      * @return
      */
     @GetMapping("/")
-    public String index(HttpServletRequest request, Model model) {
+    public String index(HttpServletRequest request, Model model,
+                        @RequestParam(name = "page", defaultValue = "1") Integer page,
+                        @RequestParam(name = "size", defaultValue = "5") Integer size) {
         Cookie[] cookies = request.getCookies();
-        if (cookies !=null && cookies.length != 0) {
+        if (cookies != null && cookies.length != 0) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     String token = cookie.getValue();
@@ -42,14 +45,10 @@ public class IndexController {
                     break;
                 }
             }
-        }else {
-
         }
-//        查询数据库返回列表
-        List<QuestionDTO> questionList = questionService.list();
-        model.addAttribute("questions", questionList);
+//        查询数据库让列表分页返回列表
+        PaginationDTO paginationDTO = questionService.list(page, size);
+        model.addAttribute("pagination", paginationDTO);
         return "index";
     }
-
-
 }
