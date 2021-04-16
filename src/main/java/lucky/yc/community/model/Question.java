@@ -10,9 +10,10 @@ public class Question {
     private String tags;
     private Long gmtCreate;
     private Long gmtModified;
-    private Integer creator;
+    private String creator;
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;
+    private Integer creatorId;
 
 }

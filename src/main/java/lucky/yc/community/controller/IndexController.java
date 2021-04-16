@@ -22,8 +22,6 @@ public class IndexController {
 
     @Autowired
     private QuestionService questionService;
-    @Autowired
-    private UserMapper userMapper;
 
     /**
      * @param request
@@ -33,25 +31,12 @@ public class IndexController {
     public String index(HttpServletRequest request, Model model,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
                         @RequestParam(name = "size", defaultValue = "5") Integer size) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length != 0) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-//                    获得user
-                    User user = userMapper.findByToken(token);
-                    if (user != null) {
-//                        user写入session
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
+
 
 //        查询数据库让列表分页返回列表
         PaginationDTO paginationDTO = questionService.list(page, size);
         model.addAttribute("pagination", paginationDTO);
+        System.out.println("数据："+paginationDTO);
         return "index";
     }
 }

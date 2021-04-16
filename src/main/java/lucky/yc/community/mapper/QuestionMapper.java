@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper
 public interface QuestionMapper {
-    @Insert("insert into question (title,description,gmt_create,gmt_modified,creator,tags) values (#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tags})")
+    @Insert("insert into question (title,description,gmt_create,gmt_modified,creator,tags,creator_id) values (#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tags},#{creator_id})")
     void create(Question question);
 
 //    查询question所有字段
@@ -22,9 +22,9 @@ public interface QuestionMapper {
 
     //    通过userid查询question所有字段
     @Select("select * from question where creator = #{userId} limit #{offset},#{size}")
-    List<Question> listByUserId(@Param(value = "userId")Integer userId, @Param(value = "offset") Integer page, @Param(value = "size") Integer size);
+    List<Question> listByUserId(@Param(value = "userId")String userId, @Param(value = "offset") Integer page, @Param(value = "size") Integer size);
 
     //    通过userid查询question字段数目
     @Select("select count(1) from question where creator = #{userId}")
-    Integer countByUserId(@Param(value = "userId")Integer userId);
+    Integer countByUserId(@Param(value = "userId")String userId);
 }

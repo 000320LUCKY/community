@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ProfileController {
     @Autowired
-    private UserMapper userMapper;
-    @Autowired
     private QuestionService questionService;
     @GetMapping("/profile/{action}")
     public String profile(
@@ -28,26 +26,11 @@ public class ProfileController {
             @RequestParam(name = "size", defaultValue = "5") Integer size) {
 
         User user = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length != 0) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-//                    获得user
-                    user = userMapper.findByToken(token);
-                    if (user != null) {
-//                        user写入session
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
+        user = (User) request.getSession().getAttribute("user");
 
         if (user == null) {
             return "redirect:/";
         }
-
         if ("questions".contains(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");
@@ -55,7 +38,7 @@ public class ProfileController {
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
         }
-        PaginationDTO paginationDTO =  questionService.list(user.getId(), page, size);
+        PaginationDTO paginationDTO =  questionService.list(user.getAccountId(), page, size);
         model.addAttribute("pagination", paginationDTO);
         return "profile";
     }

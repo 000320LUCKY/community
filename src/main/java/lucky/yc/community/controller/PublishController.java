@@ -21,8 +21,6 @@ public class PublishController {
 
     @Autowired
     private QuestionMapper questionMapper;
-    @Autowired
-    private UserMapper userMapper;
 
     //    get方法渲染页面，post方法执行请求
     @GetMapping("/publish")
@@ -64,22 +62,8 @@ public class PublishController {
             return "publish";
         }
 
-        Cookie[] cookies = request.getCookies();
         User user = null;
-        if (cookies !=null && cookies.length != 0) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        } else {
-
-        }
+        user = (User) request.getSession().getAttribute("user");
         if (user == null) {
 //            给前端传递值(error),有异常跳转到publish
             model.addAttribute("error", "用户未登录");
@@ -89,9 +73,10 @@ public class PublishController {
         question.setTitle(title);
         question.setDescription(description);
         question.setTags(tags);
-        question.setCreator(user.getId());
+        question.setCreator(user.getAccountId());
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
+        question.setCreatorId(user.getId());
 //        数据插入
         questionMapper.create(question);
 //        成功就重定向到首页
