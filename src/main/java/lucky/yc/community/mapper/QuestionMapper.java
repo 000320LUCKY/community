@@ -19,4 +19,12 @@ public interface QuestionMapper {
 
     @Select("select count(1) from question")
     Integer count();
+
+    //    通过userid查询question所有字段
+    @Select("select * from question where creator = #{userId} limit #{offset},#{size}")
+    List<Question> listByUserId(@Param(value = "userId")Integer userId, @Param(value = "offset") Integer page, @Param(value = "size") Integer size);
+
+    //    通过userid查询question字段数目
+    @Select("select count(1) from question where creator = #{userId}")
+    Integer countByUserId(@Param(value = "userId")Integer userId);
 }

@@ -11,14 +11,24 @@
     margin-bottom: 10px !important;
     float: right !important;
 }
+
 .background_publish_div {
     background-color: white !important;
 }
+
 .background_publish_body {
-    background-color: #efefef !important;
+    background-color: #eeeded !important;
 }
 
 .media-object {
     width: 38px !important;
     height: 38px !important;
+}
+
+.section {
+    margin-top: 15px !important;
+}
+
+.profile {
+    margin-top: 15px !important;
 }

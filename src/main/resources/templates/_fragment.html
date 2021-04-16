@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/community.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
@@ -38,12 +39,13 @@
                 </li>
                 <li class="dropdown" th:if="${session.user != null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false" th:text="${session.user.getName()}"><span class="caret"></span>
+                       aria-expanded="false" >
+                        <span th:text="${session.user.getName()}"></span>
+                        <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">个人信息</a></li>
-                        <li><a href="#">个人资料</a></li>
-                        <li><a href="#">退出</a></li>
+                        <li><a href="/profile/questions">我的问题</a></li>
+                        <li><a href="#">退出登录</a></li>
                     </ul>
                 </li>
             </ul>
