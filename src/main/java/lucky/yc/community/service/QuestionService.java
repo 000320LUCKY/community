@@ -63,7 +63,6 @@ public class QuestionService {
         for (Question question : questionList) {
 //            通过accountid查找user所有属性
             User user = userMapper.findByAccountId(question.getCreator(), question.getCreatorId());
-            System.out.println("用户"+question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
 //            使用spring将question属性拷贝到questionDTO
             BeanUtils.copyProperties(question, questionDTO);
@@ -75,7 +74,6 @@ public class QuestionService {
         paginationDTO.setQuestions(questionDTOList);
         return paginationDTO;
     }
-
 
     /**
      * 我的问题 使用
@@ -131,5 +129,20 @@ public class QuestionService {
 //        将questionDTOList列表添加到paginationDTO实体
         paginationDTO.setQuestions(questionDTOList);
         return paginationDTO;
+    }
+
+    /**
+     * 查询问题详情
+     * @param id 问题id
+     * @return QuestionDTO
+     */
+    public QuestionDTO getById(Integer id) {
+        Question question = questionMapper.getById(id);
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(question, questionDTO);
+        //            通过id查找user所有属性
+        User user = userMapper.findByAccountId(question.getCreator(), question.getCreatorId());
+        questionDTO.setUser(user);
+        return questionDTO;
     }
 }

@@ -62,9 +62,11 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${ques.title}">测试标题</h4>
+                    <h4 class="media-heading" >
+                        <a th:href="@{'/question/'+ ${ques.id}}" th:text="${ques.title}"></a>
+                    </h4>
                     <span th:text="${ques.description}"></span>  <br>
-                    <span class="main1" style="font-size: 12px !important;font-weight: normal !important;color: #999 !important;">
+                    <span class="main" style="font-size: 12px !important;font-weight: normal !important;color: #999 !important;">
                         <span th:text="${ques.commentCount}"></span>个回复 • <span th:text="${ques.viewCount}"></span>次浏览 • <span th:text="${#dates.format(ques.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span></span>
                 </div>
             </div>

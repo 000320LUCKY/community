@@ -10,6 +10,11 @@ import java.util.List;
 
 @Mapper
 public interface QuestionMapper {
+
+    //    通过id查询question所有字段
+    @Select("select * from question where id = #{id}")
+    Question getById(@Param(value = "id") Integer id);
+
     @Insert("insert into question (title,description,gmt_create,gmt_modified,creator,tags,creator_id) values (#{title},#{description},#{gmtCreate},#{gmtModified},#{creator},#{tags},#{creator_id})")
     void create(Question question);
 

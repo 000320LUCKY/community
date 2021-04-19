@@ -35,7 +35,6 @@ public class IndexController {
 //        查询数据库让列表分页返回列表
         PaginationDTO paginationDTO = questionService.list(page, size);
         model.addAttribute("pagination", paginationDTO);
-        System.out.println("数据："+paginationDTO);
         return "index";
     }
 }
