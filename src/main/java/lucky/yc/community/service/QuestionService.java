@@ -61,8 +61,8 @@ public class QuestionService {
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questionList) {
-//            通过accountid查找user所有属性
-            User user = userMapper.findByAccountId(question.getCreator(), question.getCreatorId());
+//            通过id查找user所有属性
+            User user = userMapper.findById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
 //            使用spring将question属性拷贝到questionDTO
             BeanUtils.copyProperties(question, questionDTO);
@@ -83,7 +83,7 @@ public class QuestionService {
      * @param size   每页默认显示条目数
      * @return 返回分页好的问题实体
      */
-    public PaginationDTO list(String userId, Integer page, Integer size) {
+    public PaginationDTO list(Integer userId, Integer page, Integer size) {
         //列表分页对象
         PaginationDTO paginationDTO = new PaginationDTO();
         //        totalPage表示分页页面数目
@@ -117,7 +117,7 @@ public class QuestionService {
 
         for (Question question : questionList) {
 //            通过id查找user所有属性
-            User user = userMapper.findByAccountId(question.getCreator(), question.getCreatorId());
+            User user = userMapper.findById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
 //            使用spring将question属性拷贝到questionDTO
             BeanUtils.copyProperties(question, questionDTO);
@@ -140,8 +140,8 @@ public class QuestionService {
         Question question = questionMapper.getById(id);
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
-        //            通过id查找user所有属性
-        User user = userMapper.findByAccountId(question.getCreator(), question.getCreatorId());
+        //通过id查找user所有属性
+        User user = userMapper.findById(question.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
     }

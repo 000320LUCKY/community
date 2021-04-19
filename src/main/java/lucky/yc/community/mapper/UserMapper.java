@@ -1,10 +1,7 @@
 package lucky.yc.community.mapper;
 
 import lucky.yc.community.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserMapper {
@@ -14,11 +11,14 @@ public interface UserMapper {
     @Select("select * from user where token = #{token}")
     User findByToken(@Param("token") String token);
 
-    //通过id和accountid查找user所有属性
-    @Select("select * from user where account_id = #{id} and id = #{creatorid}")
-    User findByAccountId(@Param("id") String id, @Param("creatorid")Integer creatorid);
+    //            通过id查找user所有属性
+    @Select("select * from user where id = #{id}")
+    User findById(@Param("id") Integer id);
 
     //通过accountid查找user所有属性
-    @Select("select * from user where  account_id = #{creator}")
-    User findById(@Param("creator")String creator);
+    @Select("select * from user where  account_id = #{creatorId}")
+    User findByAccountId(@Param("creatorId") String accountId);
+
+    @Update("update user set name = #{name},token = #{token}, gmt_modified = #{gmtModified}, avatar_url = #{avatarUrl} where id = #{id}")
+    void update(User user);
 }

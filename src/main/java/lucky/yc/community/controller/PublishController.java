@@ -73,10 +73,10 @@ public class PublishController {
         question.setTitle(title);
         question.setDescription(description);
         question.setTags(tags);
-        question.setCreator(user.getAccountId());
+        question.setCreator(user.getId());
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
-        question.setCreatorId(user.getId());
+
 //        数据插入
         questionMapper.create(question);
 //        成功就重定向到首页

@@ -1,0 +1,1 @@
+alter table question drop column creator_id;
