@@ -1,10 +1,7 @@
 package lucky.yc.community.mapper;
 
 import lucky.yc.community.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -32,4 +29,7 @@ public interface QuestionMapper {
     //    通过userid查询question字段数目
     @Select("select count(1) from question where creator = #{userId}")
     Integer countByUserId(@Param(value = "userId")Integer userId);
+
+    @Update("update question set title = #{title}, description = #{description}, gmt_modified = #{gmtModified}, tags = #{tags} where id = #{id}")
+    void update(Question question);
 }
