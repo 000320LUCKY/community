@@ -4,6 +4,7 @@ import lucky.yc.community.dto.PaginationDTO;
 import lucky.yc.community.dto.QuestionDTO;
 import lucky.yc.community.exception.CustomizeErrorCode;
 import lucky.yc.community.exception.CustomizeException;
+import lucky.yc.community.mapper.QuestionExtMapper;
 import lucky.yc.community.mapper.QuestionMapper;
 import lucky.yc.community.mapper.UserMapper;
 import lucky.yc.community.model.Question;
@@ -24,6 +25,8 @@ public class QuestionService {
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private QuestionExtMapper  questionExtMapper;
 
     /**
      * 主页 使用
@@ -40,7 +43,7 @@ public class QuestionService {
         Integer offset = 0;
 //        数据表条目数
         QuestionExample questionExample = new QuestionExample();
-        Integer totalCount = (int)questionMapper.countByExample(questionExample);
+        Integer totalCount = (int) questionMapper.countByExample(questionExample);
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
         } else {
@@ -146,6 +149,7 @@ public class QuestionService {
 
     /**
      * 查询问题详情
+     *
      * @param id 问题id
      * @return QuestionDTO
      */
@@ -170,7 +174,7 @@ public class QuestionService {
             question.setGmtModified(question.getGmtCreate());
             //创建
             questionMapper.insert(question);
-        }else {
+        } else {
             //更新
             Question updateQuestion = new Question();
             updateQuestion.setGmtModified(System.currentTimeMillis());
@@ -185,5 +189,13 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    //        增加阅读数方法
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }
