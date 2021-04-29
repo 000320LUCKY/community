@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragment :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>Lucky论坛</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body class="background_publish_body">
+<!--主体内容-->
+<div class="container-fluid main ">
+    <div class="row ">
+        <div class="jumbotron">
+            <h1>出错啦！！！</h1>
+            <p th:text="${message}"></p>
+            <p><a class="btn btn-primary btn-lg" href="/" role="button">回到主页</a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

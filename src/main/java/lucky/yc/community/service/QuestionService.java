@@ -2,6 +2,8 @@ package lucky.yc.community.service;
 
 import lucky.yc.community.dto.PaginationDTO;
 import lucky.yc.community.dto.QuestionDTO;
+import lucky.yc.community.exception.CustomizeErrorCode;
+import lucky.yc.community.exception.CustomizeException;
 import lucky.yc.community.mapper.QuestionMapper;
 import lucky.yc.community.mapper.UserMapper;
 import lucky.yc.community.model.Question;
@@ -149,6 +151,11 @@ public class QuestionService {
      */
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
+//        判断返回错误页面的条件
+        if (question == null) {
+//            抛出自定义异常
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         //通过id查找user所有属性
@@ -172,7 +179,11 @@ public class QuestionService {
             updateQuestion.setTags(question.getTags());
             QuestionExample questionExample = new QuestionExample();
             questionExample.createCriteria().andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+            int update = questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+            if (update != 1) {
+                //            抛出自定义异常
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 }
