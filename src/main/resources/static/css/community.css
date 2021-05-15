@@ -38,15 +38,44 @@
 }
 
 .community-menu {
+    display: block;
     font-size: 13px !important;
     color: #999 !important;
+    margin-bottom: 15px;
 }
 
 .comment {
     margin: 10px 0px;
 }
 
+.comments {
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
 .btn-comment {
     float: right;
     margin: 10px;
 }
+
+.question-sp {
+    margin-top: 0px;
+}
+
+.menu {
+    color: #999;
+    margin-top: 5px;
+}
+
+.menu .icon {
+    margin-right: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.menu .icon:hover {
+    color: #499ef3;
+}
+
+

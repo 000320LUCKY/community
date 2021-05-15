@@ -1,9 +1,8 @@
 package lucky.yc.community.controller;
 
-import lucky.yc.community.dto.CommentDTO;
+import lucky.yc.community.dto.CommentCreateDTO;
 import lucky.yc.community.dto.ResultDTO;
 import lucky.yc.community.exception.CustomizeErrorCode;
-import lucky.yc.community.mapper.CommentMapper;
 import lucky.yc.community.model.Comment;
 import lucky.yc.community.model.User;
 import lucky.yc.community.service.CommentService;
@@ -15,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 public class CommentController {
@@ -27,7 +23,7 @@ public class CommentController {
 
     /**
      *
-     * @param commentDTO 评论的bean
+     * @param commentCreateDTO 评论的bean
      * @param request
      * @return
      */
@@ -35,7 +31,7 @@ public class CommentController {
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
 //    @RequestBody 让json反序列化到CommentDTO
 
-    public Object post(@RequestBody CommentDTO commentDTO,
+    public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
                        HttpServletRequest request) {
 
         User user = (User) request.getSession().getAttribute("user");
@@ -45,9 +41,9 @@ public class CommentController {
             return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
         }
         Comment comment = new Comment();
-        comment.setParentId(commentDTO.getParentId());
-        comment.setContent(commentDTO.getContent());
-        comment.setType(commentDTO.getType());
+        comment.setParentId(commentCreateDTO.getParentId());
+        comment.setContent(commentCreateDTO.getContent());
+        comment.setType(commentCreateDTO.getType());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(System.currentTimeMillis());
         comment.setCommentator(user.getId());

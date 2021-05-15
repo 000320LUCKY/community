@@ -36,6 +36,33 @@
                     编辑
                 </a>
             </div>
+<!--            评论显示-->
+            <h4>
+                <span th:text="${question.commentCount}"></span>个回复
+            </h4>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 question-sp">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comments" th:each="comment : ${comments}">
+                <!--             本人信息   -->
+                <div class="media" >
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-rounded"
+                                 th:src="${comment.user.avatarUrl}" >
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading" >
+                            <span  th:text="${comment.user.name}"></span>
+                        </h6>
+                        <div th:text="${comment.content}">我是回复内容</div>
+                        <div class="menu">
+                            <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                            <span class="glyphicon glyphicon-comment icon"></span>
+                            <span class="pull-right" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd')}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
     <!--        评论栏-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
