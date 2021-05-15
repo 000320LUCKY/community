@@ -18,4 +18,9 @@
         set view_count = view_count + #{viewCount,jdbcType=INTEGER}
         where id = #{id}
     </update>
+    <update id="incCommentCount" parameterType="map">
+        update question
+        set comment_count = view_count + #{commentCount,jdbcType=INTEGER}
+        where id = #{id}
+    </update>
 </mapper>

@@ -94,7 +94,7 @@ public class QuestionService {
      * @param size   每页默认显示条目数
      * @return 返回分页好的问题实体
      */
-    public PaginationDTO list(Integer userId, Integer page, Integer size) {
+    public PaginationDTO list(Long userId, Integer page, Integer size) {
         //列表分页对象
         PaginationDTO paginationDTO = new PaginationDTO();
         //        totalPage表示分页页面数目
@@ -153,7 +153,7 @@ public class QuestionService {
      * @param id 问题id
      * @return QuestionDTO
      */
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
 //        判断返回错误页面的条件
         if (question == null) {
@@ -168,10 +168,17 @@ public class QuestionService {
         return questionDTO;
     }
 
+    /**
+     * 创建、更新问题
+     * @param question 问题实体
+     */
     public void createOrUpdate(Question question) {
         if (question.getId() == null) {
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setCommentCount(0);
+            question.setViewCount(0);
+            question.setLikeCount(0);
             //创建
             questionMapper.insert(question);
         } else {
@@ -192,7 +199,7 @@ public class QuestionService {
     }
 
     //        增加阅读数方法
-    public void incView(Integer id) {
+    public void incView(Long id) {
         Question question = new Question();
         question.setId(id);
         question.setViewCount(1);

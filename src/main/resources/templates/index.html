@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
+<script type="application/javascript">
+    window.onload = function () {
+        // debugger;
+        var closable = window.localStorage.getItem('closable');
+        if (closable == "true") {
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
 <body class="background_publish_body">
 <!--     header-->
 <nav class="navbar navbar-default" th:replace="_fragment :: nav">

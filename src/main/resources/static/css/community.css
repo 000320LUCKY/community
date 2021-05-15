@@ -25,6 +25,10 @@
     height: 38px !important;
 }
 
+.media-body {
+    padding-top: 10px;
+}
+
 .section {
     margin-top: 15px !important;
 }
@@ -36,4 +40,13 @@
 .community-menu {
     font-size: 13px !important;
     color: #999 !important;
+}
+
+.comment {
+    margin: 10px 0px;
+}
+
+.btn-comment {
+    float: right;
+    margin: 10px;
 }
