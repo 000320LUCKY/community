@@ -83,6 +83,8 @@ public class CommentService {
         example.createCriteria()
                 .andParentIdEqualTo(id)
                 .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+//        排序
+        example.setOrderByClause("gmt_create desc");
 //        查询该问题评论列表
         List<Comment> comments = commentMapper.selectByExample(example);
         if (comments.size() == 0) {
