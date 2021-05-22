@@ -1,8 +1,8 @@
 package lucky.yc.community.controller;
 
-import lucky.yc.community.dto.CommentCreateDTO;
 import lucky.yc.community.dto.CommentDTO;
 import lucky.yc.community.dto.QuestionDTO;
+import lucky.yc.community.enums.CommentTypeEnum;
 import lucky.yc.community.service.CommentService;
 import lucky.yc.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class QuestionController {
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id") Long id, Model model) {
         QuestionDTO questionDTO = questionService.getById(id);
-        List<CommentDTO> commentDTOS = commentService.listByQuestionId(id);
+        List<CommentDTO> commentDTOS = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
 //        增加阅读数方法
         questionService.incView(id);
         model.addAttribute("comments", commentDTOS);

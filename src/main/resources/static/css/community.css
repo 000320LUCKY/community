@@ -54,6 +54,17 @@
     border-bottom: 1px solid #eee;
 }
 
+.sub-comments {
+    border: 1px solid #eee;
+    margin-top: 10px;
+    padding: 6px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.sub-comments .btn {
+    margin: 10px 0;
+}
 
 .btn-comment {
     float: right;
@@ -79,8 +90,23 @@
     cursor: pointer;
 }
 
+.menu .active{
+    color: #499ef3;
+}
+
 .menu .icon:hover {
     color: #499ef3;
 }
+
+.menu .comment-icon {
+    font-size: 15px;
+    cursor: pointer;
+    display: inline-flex;
+}
+
+.menu .comment-icon:hover  {
+    color: #499ef3;
+}
+
 
 

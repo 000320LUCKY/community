@@ -5,9 +5,10 @@ import lucky.yc.community.exception.CustomizeErrorCode;
 import lucky.yc.community.exception.CustomizeException;
 
 @Data
-public class ResultDTO {
+public class ResultDTO<T> {
     private Integer code;
     private String message;
+    private T data;
 
     /**
      * 自定义异常信息
@@ -40,5 +41,13 @@ public class ResultDTO {
 
     public static ResultDTO errorOf(CustomizeException ex) {
         return errorOf(ex.getCode(), ex.getMessage());
+    }
+
+    public static <T> ResultDTO okOf(T t) {
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setCode(200);
+        resultDTO.setMessage("请求成功！");
+        resultDTO.setData(t);
+        return resultDTO;
     }
 }

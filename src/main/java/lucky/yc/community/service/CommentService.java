@@ -4,10 +4,7 @@ import lucky.yc.community.dto.CommentDTO;
 import lucky.yc.community.enums.CommentTypeEnum;
 import lucky.yc.community.exception.CustomizeErrorCode;
 import lucky.yc.community.exception.CustomizeException;
-import lucky.yc.community.mapper.CommentMapper;
-import lucky.yc.community.mapper.QuestionExtMapper;
-import lucky.yc.community.mapper.QuestionMapper;
-import lucky.yc.community.mapper.UserMapper;
+import lucky.yc.community.mapper.*;
 import lucky.yc.community.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +32,9 @@ public class CommentService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private CommentExtMapper commentExtMapper;
+
     /**
      * 添加评论
      *
@@ -58,12 +58,18 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.insert(comment);
+            //            插入评论数
+            Comment parentComment = new Comment();
+            dbComment.setId(comment.getParentId());
+            dbComment.setCommentCount(1);
+            commentExtMapper.incCommentCount(dbComment);
         } else {
 //            回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
             if (question.equals(null)) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
+            comment.setCommentCount(0);
             commentMapper.insert(comment);
 //            插入评论数
             question.setCommentCount(1);
@@ -73,16 +79,16 @@ public class CommentService {
 
 
     /**
-     * 通过id查询问题的评论列表
      *
      * @param id 问题id
+     * @param type 评论类型
      * @return 评论列表
      */
-    public List<CommentDTO> listByQuestionId(Long id) {
+    public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {
         CommentExample example = new CommentExample();
         example.createCriteria()
                 .andParentIdEqualTo(id)
-                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+                .andTypeEqualTo(type.getType());
 //        排序
         example.setOrderByClause("gmt_create desc");
 //        查询该问题评论列表
@@ -111,4 +117,6 @@ public class CommentService {
         }).collect(Collectors.toList());
         return commentDTOS;
     }
+
+
 }
