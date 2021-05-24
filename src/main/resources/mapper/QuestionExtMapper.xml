@@ -23,4 +23,9 @@
         set comment_count = comment_count + #{commentCount,jdbcType=INTEGER}
         where id = #{id}
     </update>
+    <select id="selectRelated" parameterType="map" resultMap="BaseResultMap">
+        select *
+        from question
+        where id != #{id} and tags regexp #{tags}
+    </select>
 </mapper>

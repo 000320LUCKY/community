@@ -38,7 +38,6 @@
 }
 
 .community-menu {
-    display: block;
     font-size: 13px !important;
     color: #999 !important;
     margin-bottom: 15px;
@@ -71,8 +70,24 @@
     margin: 10px;
 }
 
+.question-tag {
+    margin-right: 10px;
+}
+
 .question-sp {
     margin-top: 0px;
+}
+
+.question-related {
+    line-height: 20px;
+    font-size: 12px;
+    margin-left: 0;
+    list-style: none;
+    padding-left: 0;
+}
+
+.question-wechat {
+    width: 100%;
 }
 
 .question-title {
@@ -107,6 +122,7 @@
 .menu .comment-icon:hover  {
     color: #499ef3;
 }
+
 
 
 

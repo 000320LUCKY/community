@@ -10,13 +10,17 @@ import lucky.yc.community.mapper.UserMapper;
 import lucky.yc.community.model.Question;
 import lucky.yc.community.model.QuestionExample;
 import lucky.yc.community.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -26,7 +30,7 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private QuestionExtMapper  questionExtMapper;
+    private QuestionExtMapper questionExtMapper;
 
     /**
      * 主页 使用
@@ -66,6 +70,8 @@ public class QuestionService {
         //    分页条件查询question包含的所有字段
         QuestionExample example = new QuestionExample();
         RowBounds rowBounds = new RowBounds(offset, size);
+//        排序
+        example.setOrderByClause("gmt_create desc");
         List<Question> questionList = questionMapper.selectByExampleWithRowbounds(example, rowBounds);
 //        question问题列表
         List<QuestionDTO> questionDTOList = new ArrayList<>();
@@ -170,6 +176,7 @@ public class QuestionService {
 
     /**
      * 创建、更新问题
+     *
      * @param question 问题实体
      */
     public void createOrUpdate(Question question) {
@@ -204,5 +211,35 @@ public class QuestionService {
         question.setId(id);
         question.setViewCount(1);
         questionExtMapper.incView(question);
+    }
+
+
+    /**
+     * 查询相关问题
+     * @param queryDTO 问题实体
+     * @return
+     */
+    public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
+        if (StringUtils.isBlank(queryDTO.getTags())) {
+            return new ArrayList<>();
+        }
+//        通过“，”拆分标签
+        String[] tag = StringUtils.split(queryDTO.getTags(), ",");
+//        拆分后的标签添加“|”拼接
+        String regexpTag = Arrays.stream(tag).collect(Collectors.joining("|"));
+//        new一个新问题
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTags(regexpTag);
+//        MySQL通过正则表达式查询
+        List<Question> questionList = questionExtMapper.selectRelated(question);
+//        将VquestionList转化成QuestionDTO
+        List<QuestionDTO> questionDTOS = questionList.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+//            q属性值复制到questionDTO
+            BeanUtils.copyProperties(q, questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }
