@@ -10,6 +10,7 @@
 .button {
     margin-bottom: 10px !important;
     float: right !important;
+    margin-right: -110px;
 }
 
 .background_publish_div {
@@ -121,6 +122,16 @@
 
 .menu .comment-icon:hover  {
     color: #499ef3;
+}
+
+.publish-tag-tab {
+    display: none;
+    margin-top: 10px;
+}
+
+
+.tab-content {
+    margin-top: 10px;
 }
 
 

@@ -60,19 +60,44 @@
                 <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">问题标题 （简单扼要）：</label>
-                    <input type="text" class="form-control" th:value="${title}" id="title" name="title" placeholder="问题标题....">
+                    <input type="text" class="form-control" th:value="${title}" id="title" name="title"
+                           placeholder="问题标题....">
                 </div>
                 <div class="form-group">
                     <label for="description">问题补充 （必填，参照右侧提示）：</label>
-                    <textarea class="form-control" th:text="${description}" name="description" id="description" cols="30" rows="10"></textarea>
+                    <textarea class="form-control" th:text="${description}" name="description" id="description"
+                              cols="30" rows="10"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="tags">添加标签：</label>
-                    <input type="text" class="form-control" id="tags" name="tags" th:value="${tags}" placeholder="输入标签，以“，”隔开">
+                    <input type="text" class="form-control" id="tags" name="tags" th:value="${tags}"
+                           autocomplete="off"
+                           onclick="showSelectTag()"
+                           placeholder="输入标签，以“，”隔开">
+
+                    <!--                    标签栏-->
+                    <div id="select-tag" class="publish-tag-tab">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" th:each="selectCategory : ${tagList}">
+                                <a th:href="'#'+${selectCategory.categoryName}" aria-controls="home" role="tab" data-toggle="tab"
+                                   th:text="${selectCategory.categoryName}"></a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane" th:id="${List.categoryName}" th:each="List : ${tagList}">
+                                <span class="label label-info question-tag"  th:each="tag : ${List.tags}">
+                                    <span class="glyphicon glyphicon-tag" onclick="selectTag(this)" th:data-tag="${tag}" th:text="${tag}"></span></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="container-fluid ">
                     <div class="row">
-                        <div class="alert alert-danger col-lg-10 col-md-12 col-sm-12 col-xs-12" th:if="${error != null}" th:text="${error}"></div>
+                        <div class="alert alert-danger col-lg-10 col-md-12 col-sm-12 col-xs-12" th:if="${error != null}"
+                             th:text="${error}"></div>
                         <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12 button">
                             <button type="submit" class="btn btn-success ">发布</button>
                         </div>

@@ -123,4 +123,24 @@ function collapseComments(e) {
 
     }
 
+
+
+}
+
+
+function selectTag(value) {
+    var value = value.getAttribute("data-tag")
+    var previous = $("#tags").val();
+    if (previous.indexOf(value) == -1) {
+        if (previous) {
+            $("#tags").val(previous+','+value);
+        }else {
+            $("#tags").val(value);
+        }
+    }
+
+}
+
+function showSelectTag() {
+    $("#select-tag").show();
 }

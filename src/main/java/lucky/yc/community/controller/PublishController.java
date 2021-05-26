@@ -1,11 +1,13 @@
 package lucky.yc.community.controller;
 
+import lucky.yc.community.cache.TagCache;
 import lucky.yc.community.dto.QuestionDTO;
 import lucky.yc.community.mapper.QuestionMapper;
 import lucky.yc.community.mapper.UserMapper;
 import lucky.yc.community.model.Question;
 import lucky.yc.community.model.User;
 import lucky.yc.community.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,18 +34,20 @@ public class PublishController {
         model.addAttribute("title", question.getTitle());
         model.addAttribute("description", question.getDescription());
         model.addAttribute("tags", question.getTags());
+        model.addAttribute("tagList", TagCache.get());
         model.addAttribute("id",question.getId());
         return "publish";
     }
 
     //    get方法渲染页面，post方法执行请求
     @GetMapping("/publish")
-    public String publish() {
+    public String publish(Model model) {
+        model.addAttribute("tagList", TagCache.get());
         return "publish";
     }
 
     /**
-     * 问题发布页面
+     * 问题发布方法
      * @param title 必填
      * @param description 必填
      * @param tags 必填
@@ -61,6 +65,7 @@ public class PublishController {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tags", tags);
+        model.addAttribute("tagList", TagCache.get());
         model.addAttribute("id", id);
 //        校验空值
         if (title == null || title == "") {
@@ -74,6 +79,12 @@ public class PublishController {
         }
         if (tags == null || tags == "") {
             model.addAttribute("error", "标签不能为空");
+            return "publish";
+        }
+
+        String invalid = TagCache.filterInvalid(tags);
+        if (StringUtils.isNotBlank(invalid)) {
+            model.addAttribute("error","输入非法标签"+invalid);
             return "publish";
         }
 
