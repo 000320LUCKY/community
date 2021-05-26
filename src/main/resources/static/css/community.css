@@ -7,6 +7,13 @@
 .main {
     margin: 30px !important;
 }
+
+.main1 {
+    font-size: 12px !important;
+    font-weight: normal !important;
+    color: #999 !important;
+}
+
 .button {
     margin-bottom: 10px !important;
     float: right !important;
@@ -42,6 +49,7 @@
     font-size: 13px !important;
     color: #999 !important;
     margin-bottom: 15px;
+    margin-left: 10px;
 }
 
 .comment {
@@ -129,9 +137,9 @@
     margin-top: 10px;
 }
 
-
-.tab-content {
-    margin-top: 10px;
+.publish-tag-tab .label-info{
+    margin: 5px 5px;
+    display: inline-block;
 }
 
 

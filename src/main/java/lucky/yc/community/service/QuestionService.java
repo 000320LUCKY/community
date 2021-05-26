@@ -133,6 +133,8 @@ public class QuestionService {
         QuestionExample example = new QuestionExample();
         RowBounds rowBounds = new RowBounds(offset, size);
         example.createCriteria().andCreatorEqualTo(userId);
+//        排序
+        example.setOrderByClause("gmt_create desc");
         List<Question> questionList = questionMapper.selectByExampleWithRowbounds(example, rowBounds);
 //        question问题列表
         List<QuestionDTO> questionDTOList = new ArrayList<>();

@@ -129,16 +129,25 @@ function collapseComments(e) {
 
 
 function selectTag(value) {
+    //选择的标签
     var value = value.getAttribute("data-tag")
+    //输入栏里的标签
     var previous = $("#tags").val();
-    if (previous.indexOf(value) == -1) {
+    var previou = previous.split(",");
+    var previousList = new Array();
+    $.each(
+        previou,function (index,i) {
+            previousList.push(i);
+            console.log("数组"+previousList)
+        }
+    )
+    if (previousList.indexOf(value) == -1) {
         if (previous) {
-            $("#tags").val(previous+','+value);
+            $("#tags").val(previousList+','+value);
         }else {
             $("#tags").val(value);
         }
     }
-
 }
 
 function showSelectTag() {
