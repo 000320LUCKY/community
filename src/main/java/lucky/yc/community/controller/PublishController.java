@@ -6,6 +6,7 @@ import lucky.yc.community.mapper.QuestionMapper;
 import lucky.yc.community.mapper.UserMapper;
 import lucky.yc.community.model.Question;
 import lucky.yc.community.model.User;
+import lucky.yc.community.service.NotificationService;
 import lucky.yc.community.service.QuestionService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Insert;
@@ -26,6 +27,8 @@ public class PublishController {
 
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/publish/{id}")
     public String edit(@PathVariable(name = "id") Long id,
@@ -61,6 +64,7 @@ public class PublishController {
             @RequestParam(value = "title",required = false) String title, @RequestParam(value = "description",required = false) String description,
             @RequestParam(value = "tags",required = false) String tags, @RequestParam(value = "id",required = false) Long id, HttpServletRequest request, Model model
     ) {
+
 
         model.addAttribute("title", title);
         model.addAttribute("description", description);

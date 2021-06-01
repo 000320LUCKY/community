@@ -6,6 +6,7 @@ import lucky.yc.community.mapper.QuestionMapper;
 import lucky.yc.community.mapper.UserMapper;
 import lucky.yc.community.model.Question;
 import lucky.yc.community.model.User;
+import lucky.yc.community.service.NotificationService;
 import lucky.yc.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,6 @@ public class IndexController {
 
     @Autowired
     private QuestionService questionService;
-
     /**
      * @param request
      * @return
@@ -31,6 +31,8 @@ public class IndexController {
     public String index(HttpServletRequest request, Model model,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
                         @RequestParam(name = "size", defaultValue = "5") Integer size) {
+        User user = null;
+        user = (User) request.getSession().getAttribute("user");
 //        查询数据库让列表分页返回列表
         PaginationDTO paginationDTO = questionService.list(page, size);
         model.addAttribute("pagination", paginationDTO);
