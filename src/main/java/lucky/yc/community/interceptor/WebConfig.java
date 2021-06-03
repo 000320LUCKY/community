@@ -2,6 +2,7 @@ package lucky.yc.community.interceptor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
+@EnableAutoConfiguration
 public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private SessionInterceptor sessionInterceptor;
@@ -18,7 +20,6 @@ public class WebConfig implements WebMvcConfigurer {
     /**
      * addPathPatterns 添加拦截规则
      * excludePathPatterns 排除拦截规则
-     *
      * @param registry
      */
     @Override
@@ -27,11 +28,15 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(sessionInterceptor).addPathPatterns("/**");
     }
 
-    //静态资源加载地址
+//    静态资源加载地址
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/");
+//                .addResourceLocations("classpath:./static/css")
+//                .addResourceLocations("classpath:./static/js")
+//                .addResourceLocations("classpath:./static/fonts")
+//                .addResourceLocations("classpath:./static/images");
     }
 
 }
