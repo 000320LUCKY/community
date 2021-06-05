@@ -128,6 +128,7 @@ function collapseComments(e) {
 }
 
 
+//
 function selectTag(value) {
     //选择的标签
     var value = value.getAttribute("data-tag")
@@ -150,6 +151,7 @@ function selectTag(value) {
     }
 }
 
+//
 function showSelectTag() {
     $("#select-tag").show();
 }
