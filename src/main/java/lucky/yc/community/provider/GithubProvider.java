@@ -15,8 +15,6 @@ public class GithubProvider {
     //    调用这个地址、传输参数获得accessToken
 
     /**
-     *
-     *
      * @param accessTokenDTO
      * @return
      */
@@ -24,8 +22,6 @@ public class GithubProvider {
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(mediaType, JSON.toJSONString(accessTokenDTO));
-
-
 
         Request request = new Request.Builder()
                 .url("https://github.com/login/oauth/access_token")
@@ -56,10 +52,10 @@ public class GithubProvider {
                 .url("https://api.github.com/user?")
                 .header("Authorization","token "+accessToken)
                 .build();
-        try {
-            Response response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute()) {
+
             String string = response.body().string();
-//            System.out.printf("qw:"+string);
+            System.out.printf("qw:"+string);
 //            将string的json自动转换解析成java类对象
             GithubUser githubUser = JSON.parseObject(string, GithubUser.class);
             return githubUser;
