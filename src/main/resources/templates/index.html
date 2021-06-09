@@ -75,8 +75,9 @@
                     <h4 class="media-heading" >
                         <a th:href="@{'/question/'+ ${ques.id}}" th:text="${ques.title}"></a>
                     </h4>
-                    <span th:text="${ques.description}"></span>  <br>
-                    <span class="main" style="font-size: 12px !important;font-weight: normal !important;color: #999 !important;">
+<!--                    <span th:text="${ques.description}"></span>-->
+                    <br>
+                    <span style="font-size: 12px !important;font-weight: normal !important;color: #999 !important;">
                         <span th:text="${ques.commentCount}"></span>个回复 • <span th:text="${ques.viewCount}"></span>次浏览 • <span th:text="${#dates.format(ques.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span></span>
                 </div>
             </div>
@@ -89,15 +90,15 @@
                         </a>
                     </li>
                     <li th:if="${pagination.showPrevious}">
-                        <a th:href="@{/(page=${pagination.page - 1})}" aria-label="Previous">
+                        <a th:href="@{/(page=${pagination.page - 1},search=${search})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
                     <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page}? 'active':''">
-                        <a th:href="@{/(page=${page})}" th:text="${page}"></a>
+                        <a th:href="@{/(page=${page},search=${search})}" th:text="${page}"></a>
                     </li>
                     <li th:if="${pagination.showNext}">
-                        <a th:href="@{/(page=${pagination.page + 1})}" aria-label="Next">
+                        <a th:href="@{/(page=${pagination.page + 1},search=${search})}" aria-label="Next">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
@@ -111,9 +112,15 @@
         </div>
 <!--        右侧-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h4>热门话题</h4>
+            <h4>关注</h4>
+            <img class="img-thumbnail question-wechat" src="">
         </div>
+
+
+
     </div>
 </div>
+<!--foot-->
+<div th:replace="_fragment :: foot"></div>
 </body>
 </html>

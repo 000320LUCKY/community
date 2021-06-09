@@ -87,6 +87,11 @@
     margin-top: 0px;
 }
 
+.question-count {
+    padding: 5px;
+    margin-top: -8px;
+}
+
 .question-related {
     line-height: 20px;
     font-size: 12px;
@@ -140,6 +145,11 @@
 .publish-tag-tab .label-info{
     margin: 5px 5px;
     display: inline-block;
+}
+
+.footer {
+    padding: 10px 35%;
+    color: #666;
 }
 
 

@@ -47,7 +47,9 @@ public class AliyunProvider {
 
 //        文件命名
         String generatedFileName;
+//        以"."剪切字符串
         String[] filePaths = fileName.split("\\.");
+//        返回文件名
         if (filePaths.length > 1) {
             generatedFileName = UUID.randomUUID().toString() + "." + filePaths[filePaths.length - 1];
         } else {
@@ -81,15 +83,19 @@ public class AliyunProvider {
             String style = "image/resize,m_fixed,w_200,h_100/rotate,90";
             // 指定签名URL过期时间为一天。
             Date expiration = new Date(new Date().getTime() + 1000 * 60 * 10 * 144);
+//            返回请求
             GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(bucketName, generatedFileName, HttpMethod.GET);
 
             if (req != null && req.getKey() != null) {
+                //            编辑图片
+//            req.setProcess(style);
+//                设置过期时间
                 req.setExpiration(expiration);
-//                req.setProcess(style);
                 String signedUrl = String.valueOf(ossClient1.generatePresignedUrl(req));
                 System.out.println("图片链接：" + signedUrl);
                 // 关闭OSSClient。
                 ossClient1.shutdown();
+//                返回图片链接
                 return signedUrl;
             } else {
                 throw new CustomizeException(CustomizeErrorCode.FILE_UPLOAD_FAIL);

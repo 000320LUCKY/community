@@ -2,6 +2,7 @@ package lucky.yc.community.service;
 
 import lucky.yc.community.dto.PaginationDTO;
 import lucky.yc.community.dto.QuestionDTO;
+import lucky.yc.community.dto.QuestionQueryDTO;
 import lucky.yc.community.exception.CustomizeErrorCode;
 import lucky.yc.community.exception.CustomizeException;
 import lucky.yc.community.mapper.QuestionExtMapper;
@@ -34,11 +35,21 @@ public class QuestionService {
     /**
      * 主页 使用
      *
-     * @param page 当前所在页数
-     * @param size 每页默认显示条目数
+     * @param page   当前所在页数
+     * @param size   每页默认显示条目数
+     * @param search
      * @return 返回分页好的问题实体
      */
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(Integer page, Integer size, String search) {
+
+        if (StringUtils.isNotBlank(search)) {
+            //        通过“，”拆分标签
+            String[] tag = StringUtils.split(search, " ");
+//        拆分后的标签添加“|”拼接
+            search = Arrays.stream(tag).collect(Collectors.joining("|"));
+        }
+
+
 //列表分页对象
         PaginationDTO paginationDTO = new PaginationDTO();
         //        totalPage表示分页页面数目
@@ -46,7 +57,9 @@ public class QuestionService {
         Integer offset = 0;
 //        数据表条目数
         QuestionExample questionExample = new QuestionExample();
-        Integer totalCount = (int) questionMapper.countByExample(questionExample);
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
         } else {
@@ -71,7 +84,10 @@ public class QuestionService {
         RowBounds rowBounds = new RowBounds(offset, size);
 //        排序
         example.setOrderByClause("gmt_create desc");
-        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(example, rowBounds);
+//        设置数量，页面
+        questionQueryDTO.setPage(offset);
+        questionQueryDTO.setSize(size);
+        List<Question> questionList = questionExtMapper.selectBySearch(questionQueryDTO);
 //        question问题列表
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
@@ -217,6 +233,7 @@ public class QuestionService {
 
     /**
      * 查询相关问题
+     *
      * @param queryDTO 问题实体
      * @return
      */

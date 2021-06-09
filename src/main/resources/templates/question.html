@@ -27,7 +27,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4 class="question-title"><span th:text="${question.title}" class=""></span></h4>
                 <span class="text-desc"
-                      style="font-size: 12px !important;font-weight: normal !important;color: #999 !important;">
+                      style="font-size: 12px !important;font-weight: normal !important;color: #999999 !important;">
                     作者：<span th:text="${question.user.name}"></span> |
                     发布时间：<span th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span> |
                     阅读数：<span th:text="${question.viewCount}"></span>
@@ -90,7 +90,7 @@
                                 <span class="glyphicon glyphicon-thumbs-up icon"></span>
                                 <span th:data-id="${comment.id}" onclick="collapseComments(this)" class="comment-icon">
                                     <span class="glyphicon glyphicon-comment"></span>
-                                    <span th:text="${comment.commentCount}"></span>
+                                    <span class="question-count" th:text="${comment.commentCount}"></span>
                                 </span>
                                 <span class="pull-right"
                                       th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd')}"></span>
@@ -121,13 +121,14 @@
                     <div class="media">
                         <div class="media-left">
                             <a href="#">
-                                <img class="media-object img-rounded"
-                                     th:src="${question.user.avatarUrl}">
+                                <img class="media-object img-circle"
+                                     th:src="${session.user != null ? session.user.avatarUrl : '/image/default-avatar.png'}"
+                                   >
                             </a>
                         </div>
                         <div class="media-body">
                             <h6 class="media-heading">
-                                <span th:text="${question.user.name}"></span>
+                                <span th:text="${session.user != null ? session.user.name : '匿名用户'}" ></span>
                             </h6>
                         </div>
                     </div>
@@ -175,5 +176,7 @@
         </div>
     </div>
 </div>
+<!--foot-->
+<div th:replace="_fragment :: foot"></div>
 </body>
 </html>
