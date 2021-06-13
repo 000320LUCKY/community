@@ -1,5 +1,6 @@
 package lucky.yc.community.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import lucky.yc.community.mapper.UserMapper;
 import lucky.yc.community.dto.AccessTokenDTO;
 import lucky.yc.community.dto.GithubUser;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
+@Slf4j
 public class AuthorizeController {
 
     @Autowired
@@ -56,10 +58,13 @@ public class AuthorizeController {
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
         accessTokenDTO.setState(state);
+//        获得授权token
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
+//        得到用户数据
         GithubUser githubUser = githubProvider.getUser(accessToken);
         System.out.printf("user_info:"+githubUser);
         System.out.printf("user_info:"+githubUser.toString());
+//          校验用户
         if (githubUser != null && githubUser.getId() != null) {
             User user = new User();
 //            获得的token
@@ -76,6 +81,7 @@ public class AuthorizeController {
 //            request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
         } else {
+            log.error("callback get github error:{}",githubUser);
             System.out.printf("未获得数据");
             //登录失败，重新登录
             return "redirect:/";
@@ -91,6 +97,7 @@ public class AuthorizeController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request,
                          HttpServletResponse response) {
+
         request.getSession().removeAttribute("user");
 //        移除cookies
         Cookie cookie = new Cookie("token",null);

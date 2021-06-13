@@ -2,6 +2,7 @@ package lucky.yc.community.provider;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyun.oss.OSSClientBuilder;
+import lombok.extern.slf4j.Slf4j;
 import lucky.yc.community.dto.AccessTokenDTO;
 import lucky.yc.community.dto.GithubUser;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class GithubProvider {
     //    调用这个地址、传输参数获得accessToken
 
@@ -32,6 +34,7 @@ public class GithubProvider {
             String token = string.split("&")[0].split("=")[1];
             return token;
         } catch (Exception e) {
+            log.error("getAccessToken get request error:",request);
             e.printStackTrace();
         }
         return null;
@@ -53,13 +56,12 @@ public class GithubProvider {
                 .header("Authorization","token "+accessToken)
                 .build();
         try (Response response = client.newCall(request).execute()) {
-
             String string = response.body().string();
-            System.out.printf("qw:"+string);
 //            将string的json自动转换解析成java类对象
             GithubUser githubUser = JSON.parseObject(string, GithubUser.class);
             return githubUser;
         } catch (IOException e) {
+            log.error("getUser get request error:",request);
             e.printStackTrace();
         }
         return null;
