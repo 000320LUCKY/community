@@ -1,10 +1,9 @@
 create table user
 (
-    ID           int auto_increment
-        primary key,
-    ACCOUNT_ID   varchar(100) null,
-    NAME         varchar(50)  null,
-    TOKEN        varchar(36)  null,
-    GMT_CREATE   bigint       null,
-    GMT_MODIFIED bigint       null
+    id           int auto_increment primary key,
+    account_id   varchar(100) null,
+    name        varchar(50)  null,
+    token        varchar(36)  null,
+    gmt_create  bigint       null,
+    gmt_modified  bigint       null
 );

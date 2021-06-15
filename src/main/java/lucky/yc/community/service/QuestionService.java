@@ -79,6 +79,9 @@ public class QuestionService {
         paginationDTO.setPaginations(totalPage, page);
 //        size*(page-1)
         offset = size * (page - 1);
+        if (offset < 0){
+             offset = 0;
+        }
         //    分页条件查询question包含的所有字段
         QuestionExample example = new QuestionExample();
         RowBounds rowBounds = new RowBounds(offset, size);

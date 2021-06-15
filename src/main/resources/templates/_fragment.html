@@ -42,7 +42,8 @@
                 </li>
                 <li><a href="/profile/replies">通知<span class="badge" th:text="${session.unreadCount}" ></span></a></li>
                 <li th:unless="${session.user != null}">
-                    <a href="https://github.com/login/oauth/authorize?client_id=0722d115b46361e6bec5&redirect_uri=http://localhost:8887/callback&scope=user&state=1">登录</a>
+<!--                    <a href="https://github.com/login/oauth/authorize?client_id=0722d115b46361e6bec5&redirect_uri=http://localhost:8887/callback&scope=user&state=1">登录</a>-->
+                    <a th:href="@{https://github.com/login/oauth/authorize?client_id=0722d115b46361e6bec5&redirect_uri={redirect_uri}&scope=user&state=1(redirect_uri=${#httpServletRequest.getRequestURL()+'callback'})}">登录</a>
                 </li>
 
                 <li class="dropdown" th:if="${session.user != null}">

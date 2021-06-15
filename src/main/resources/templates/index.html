@@ -76,7 +76,6 @@
                         <a th:href="@{'/question/'+ ${ques.id}}" th:text="${ques.title}"></a>
                     </h4>
 <!--                    <span th:text="${ques.description}"></span>-->
-                    <br>
                     <span style="font-size: 12px !important;font-weight: normal !important;color: #999 !important;">
                         <span th:text="${ques.commentCount}"></span>个回复 • <span th:text="${ques.viewCount}"></span>次浏览 • <span th:text="${#dates.format(ques.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span></span>
                 </div>
